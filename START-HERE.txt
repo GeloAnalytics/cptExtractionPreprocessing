@@ -1,0 +1,46 @@
+table2sheet - PDF / Image Table to XLSX / CSV Converter
+============================================================
+Fully offline. Nothing to install, no admin rights needed, no internet required.
+
+
+1. HOW TO RUN
+
+   Just double-click the shortcut:
+
+       Run table2sheet
+
+   (It has a blue PowerShell/shortcut icon).
+   It opens immediately in your default web browser (just like CPT Mapping) at http://localhost:8765!
+
+
+2. WHY DID YOU SEE A "RESTRICTIONS" ERROR ON .BAT FILES?
+
+   Company laptops block double-clicking .bat files directly in Windows Explorer.
+   That is why CPT Mapping used a shortcut ("Run CPT Mapping") instead of a .bat file.
+   We have added the exact same "Run table2sheet" shortcut here.
+
+
+3. IF WINDOWS BLOCKS IT ("Windows protected your PC")
+
+   If Windows SmartScreen shows a blue warning:
+   - Click "More info"
+   - Click "Run anyway"
+
+   Alternatively:
+   - Right-click "Run table2sheet" -> Properties.
+   - If there is an "Unblock" checkbox at the bottom, tick it and click OK.
+
+
+4. USING THE APP
+
+   - Click "＋ Add files" to choose your PDF or image files.
+   - Choose your output format (Excel .xlsx, CSV, or both).
+   - Click "▶ Convert".
+   - The converted files will be saved in the same folder as your input files
+     (or in a custom folder if you select one).
+
+
+5. NEED HELP?
+
+   See USER_GUIDE.md for detailed documentation, tips for maximum accuracy,
+   and troubleshooting.
