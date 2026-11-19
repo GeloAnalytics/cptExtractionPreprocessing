@@ -34,7 +34,7 @@ On company-restricted laptops (where running installers, PowerShell shortcut scr
 pip install -r requirements.txt
 ```
 
-Requires **Python 3.10+**. Use `install_windows.bat` (Windows) or `install.sh` (Mac/Linux) to do this automatically and create a desktop shortcut.
+Requires **Python 3.10+**. On company laptops without admin rights, add `--user`: `python -m pip install --user -r requirements.txt`.
 
 ### Step 2 — Tesseract OCR (only for scanned PDFs / images)
 
@@ -215,24 +215,25 @@ See the full list at [tesseract-ocr/tessdata](https://github.com/tesseract-ocr/t
 
 ## Sharing between computers (Google Drive)
 
-### Option A — Portable app (recommended, no Python needed on other PCs)
+### Option A — Portable folder (recommended, no Python needed on other PCs)
 
-1. On **one Windows PC** with Python installed, double-click `build_windows.bat`
-   - Needs internet **this one time only** (downloads PyInstaller + packages)
-   - Install Tesseract first if you want OCR support bundled in
-2. It creates `table2sheet_portable.zip` with Tesseract included
-3. Upload `table2sheet_portable.zip` to Google Drive
-4. On any other Windows laptop: download → unzip → double-click `table2sheet.exe`
+1. On **one Windows PC** with Python installed, install the packages once (needs internet):
+   `python -m pip install --user -r requirements.txt`
+2. Run `python build_runtime.py`
+   - Copies Python and the installed packages into `runtime\python` inside the app folder
+   - Warns you if any required package is missing
+3. Zip the whole app folder (including `runtime\`) and upload it to Google Drive
+4. On any other Windows laptop: download → unzip → start with `run.bat` or the `Run table2sheet` shortcut
 
 > [!IMPORTANT]
-> The portable `.exe` opens the GUI by default. For command-line use on those laptops, use Option B.
+> Tesseract OCR is **not** bundled in `runtime\`. Laptops that need to process scans or photos still need Tesseract installed (see Installation above).
 
-### Option B — Share folder, install per PC
+### Option B — Share folder, use each PC's own Python
 
-1. Share the `table2sheet_app` folder via Google Drive
-2. On each laptop: run `install_windows.bat` (Windows) or `./install.sh` (Mac/Linux)
+1. Share the app folder via Google Drive
+2. On each laptop, run once: `python -m pip install --user -r requirements.txt`
    - Needs Python 3.10+ and internet only during this install step
-   - Creates a desktop shortcut automatically
+3. Start the app with `run.bat` or `Run table2sheet`
 
 ---
 

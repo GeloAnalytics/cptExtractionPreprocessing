@@ -1,9 +1,10 @@
 __pycache__/
 *.pyc
-scratch/uploads/
-scratch/downloads/
-scratch/*.png
-scratch/*.xlsx
 .DS_Store
 Thumbs.db
 
+# Web UI uploads/downloads
+scratch/
+
+# Portable Python runtime (large; build locally with build_runtime.py, share as a zip)
+runtime/

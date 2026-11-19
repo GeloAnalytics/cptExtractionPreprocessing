@@ -1,0 +1,9 @@
+# Core (text PDFs, Excel/CSV inputs, XLSX output)
+pdfplumber>=0.11
+openpyxl>=3.1
+
+# Scanned PDFs / images (OCR). Also needs the Tesseract OCR program installed separately.
+numpy>=1.26
+opencv-python-headless>=4.8
+Pillow>=10.0
+pytesseract>=0.3.10

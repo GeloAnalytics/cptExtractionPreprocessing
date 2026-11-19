@@ -14,6 +14,7 @@ run.bat
 The application opens immediately in your default web browser at `http://localhost:8765` (just like the CPT mapping tool). No installer, no administrator rights, and no command prompt needed (see `START-HERE.txt`).
 
 ## Install (optional / CLI use)
+* Python packages: `python -m pip install --user -r requirements.txt`
 * Text-based PDFs (like Excel-printed price lists) need **nothing else**.
 * Scanned PDFs / photos / screenshots need the free **Tesseract OCR** engine:
   * Windows: `winget install UB-Mannheim.TesseractOCR`
@@ -63,13 +64,14 @@ python table2sheet.py                                # no arguments = simple win
   **Always review OCR output before using it for mapping**, especially codes and prices.
 
 ## Sharing between laptops (Google Drive)
-**Option A - portable app, no Python on the other laptops (recommended)**
-1. On ONE Windows PC with Python, double-click `build_windows.bat` (needs internet once; install Tesseract first to include scan/OCR support).
-2. It creates `table2sheet_portable.zip` (Tesseract bundled, works fully offline). Upload it to Google Drive.
-3. On any other Windows laptop: download, unzip, double-click `table2sheet.exe`.
+**Option A - portable folder, no Python on the other laptops (recommended)**
+1. On ONE Windows PC that has Python, install the packages once (needs internet):
+   `python -m pip install --user -r requirements.txt`
+2. Run `python build_runtime.py`. It copies Python and the packages into a `runtime\python` folder inside the app folder.
+3. Zip the whole app folder (including `runtime\`) and upload it to Google Drive.
+4. On any other Windows laptop: download, unzip, and start with `run.bat` / `Run table2sheet` (see `START-HERE.txt`).
 
-**Option B - share this folder, install per laptop**
-Share the `table2sheet_app` folder via Drive. On each laptop run `install_windows.bat` (or `./install.sh` on Mac/Linux) once; it makes a desktop shortcut.
-Needs Python 3.10+ and internet only during that install.
+Scans/photos also need the Tesseract OCR program on each laptop; it is not bundled in `runtime\`.
 
-The exe build is windowed (GUI). For command-line use, use Option B or `python table2sheet.py ...`.
+**Option B - share the folder, use each laptop's own Python**
+Share the app folder via Drive. On each laptop run `python -m pip install --user -r requirements.txt` once (Python 3.10+, internet only for this step), then start the app the same way.
