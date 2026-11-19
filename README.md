@@ -63,15 +63,18 @@ python table2sheet.py                                # no arguments = simple win
   (~75-85% without it). Best results: scan at 300 dpi or more, straight, high contrast.
   **Always review OCR output before using it for mapping**, especially codes and prices.
 
-## Sharing between laptops (Google Drive)
-**Option A - portable folder, no Python on the other laptops (recommended)**
+## Deployment (developer setup, Google Drive)
 1. On ONE Windows PC that has Python, install the packages once (needs internet):
    `python -m pip install --user -r requirements.txt`
-2. Run `python build_runtime.py`. It copies Python and the packages into a `runtime\python` folder inside the app folder.
-3. Zip the whole app folder (including `runtime\`) and upload it to Google Drive.
-4. On any other Windows laptop: download, unzip, and start with `run.bat` / `Run table2sheet` (see `START-HERE.txt`).
+   and install Tesseract OCR (`winget install UB-Mannheim.TesseractOCR`).
+2. Run `python build_runtime.py`. It copies Python + packages into `runtime\python` and Tesseract into `runtime\tesseract`.
+3. Upload the app folder (including `runtime\`, without `samples\`) to Google Drive.
+4. On each user's laptop: copy the folder to its final location, then run once:
+   `powershell -NoProfile -ExecutionPolicy Bypass -File create_shortcut.ps1 -Desktop`
+   This creates the `Run table2sheet` shortcut for that folder (shortcuts store absolute paths, so they can't be shared).
+5. Users start the app with the shortcut (see `START-HERE.txt`). Their results stay on their own laptop.
 
-Scans/photos also need the Tesseract OCR program on each laptop; it is not bundled in `runtime\`.
+`samples\` is the developer dataset (reference price lists and mapped files); it is not needed for deployment.
 
-**Option B - share the folder, use each laptop's own Python**
+**Alternative - use each laptop's own Python instead of `runtime\`**
 Share the app folder via Drive. On each laptop run `python -m pip install --user -r requirements.txt` once (Python 3.10+, internet only for this step), then start the app the same way.

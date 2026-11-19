@@ -221,12 +221,13 @@ See the full list at [tesseract-ocr/tessdata](https://github.com/tesseract-ocr/t
    `python -m pip install --user -r requirements.txt`
 2. Run `python build_runtime.py`
    - Copies Python and the installed packages into `runtime\python` inside the app folder
-   - Warns you if any required package is missing
-3. Zip the whole app folder (including `runtime\`) and upload it to Google Drive
-4. On any other Windows laptop: download → unzip → start with `run.bat` or the `Run table2sheet` shortcut
-
-> [!IMPORTANT]
-> Tesseract OCR is **not** bundled in `runtime\`. Laptops that need to process scans or photos still need Tesseract installed (see Installation above).
+   - Also copies an installed Tesseract OCR into `runtime\tesseract` (install it on this PC first), so other laptops can read scans without installing anything
+   - Warns you if any required package or Tesseract is missing
+3. Upload the app folder (including `runtime\`, without `samples\`) to Google Drive
+4. On each other Windows laptop: copy the folder to its final location, then run once:
+   `powershell -NoProfile -ExecutionPolicy Bypass -File create_shortcut.ps1 -Desktop`
+   to create the `Run table2sheet` shortcut for that folder
+5. Start the app with the `Run table2sheet` shortcut
 
 ### Option B — Share folder, use each PC's own Python
 

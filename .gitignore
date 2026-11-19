@@ -8,3 +8,6 @@ scratch/
 
 # Portable Python runtime (large; build locally with build_runtime.py, share as a zip)
 runtime/
+
+# Shortcuts hold absolute paths; create per laptop with create_shortcut.ps1
+*.lnk

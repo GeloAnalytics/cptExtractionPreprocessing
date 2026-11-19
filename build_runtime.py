@@ -6,13 +6,16 @@ requirements.txt installed (system or user-level install):
     python build_runtime.py
 
 It copies the running Python interpreter plus its installed packages into
-./runtime/python next to this script. Zip the whole folder (including
-runtime/) and share it; other laptops then need no Python install.
+./runtime/python, and an installed Tesseract OCR into ./runtime/tesseract
+(where table2sheet looks for it). Zip the whole folder (including runtime/)
+and share it; other laptops then need no Python or Tesseract install.
 """
+import os
 import shutil
 import site
 import sys
 from pathlib import Path
+from typing import Optional
 
 APP_DIR = Path(__file__).resolve().parent
 src_python = Path(sys.base_prefix)
@@ -42,6 +45,38 @@ def copy_tree_contents(src: Path, dest: Path):
             shutil.copy2(item, target)
 
 
+def find_tesseract_dir() -> Optional[Path]:
+    """Locate an installed Tesseract-OCR folder (the one holding tesseract.exe + tessdata)."""
+    candidates = []
+    if os.environ.get("TESSERACT_CMD"):
+        candidates.append(Path(os.environ["TESSERACT_CMD"]).parent)
+    found = shutil.which("tesseract")
+    if found:
+        candidates.append(Path(found).resolve().parent)
+    for env in ("ProgramFiles", "ProgramFiles(x86)", "LOCALAPPDATA"):
+        root = os.environ.get(env)
+        if root:
+            candidates += [Path(root) / "Tesseract-OCR", Path(root) / "Programs" / "Tesseract-OCR"]
+    for c in candidates:
+        if (c / "tesseract.exe").exists() and (c / "tessdata").is_dir():
+            return c
+    return None
+
+
+def bundle_tesseract():
+    dest = APP_DIR / "runtime" / "tesseract"
+    if (dest / "tesseract.exe").exists():
+        print(f"3. Tesseract already bundled at {dest}, skipping.")
+        return
+    src = find_tesseract_dir()
+    if not src:
+        print("3. WARNING: Tesseract OCR not found; scans/photos will not work from this runtime.")
+        print("   Install it (winget install UB-Mannheim.TesseractOCR) and re-run this script.")
+        return
+    print(f"3. Copying Tesseract OCR from {src}...")
+    shutil.copytree(src, dest, ignore=shutil.ignore_patterns("unins*", "*.html", "doc"))
+
+
 def main():
     print(f"Source Python:     {src_python}")
     print(f"Portable runtime:  {dest_runtime}")
@@ -57,7 +92,9 @@ def main():
     else:
         print("2. No user site-packages found, skipping.")
 
-    print("3. Verifying portable runtime...")
+    bundle_tesseract()
+
+    print("4. Verifying portable runtime...")
     portable_py = dest_runtime / "python.exe"
     print(f"   python.exe present: {portable_py.exists()}")
     missing = []
